@@ -8,10 +8,10 @@ import ContactPopup from "./components/ContactPopup";
 
 const Page = () => {
   const [contactData, setContactData] = useState({
-    companyName: "MOF IECCD",
-    email: "ieccdzoom@mof.gov.np",
-    dr: "DR-185153",
-    poNumber: "15853",
+    companyName: "",
+    email: "",
+    dr: "",
+    poNumber: "",
     product: "Zoom",
     address: `INFLOW TECHNOLOGIES\n(SINGAPORE) PTE LTD\n101 Cecil Street\n#19-03 Tong Eng Building\nSingapore 069533`,
     items: [
