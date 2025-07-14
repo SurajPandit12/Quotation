@@ -97,7 +97,7 @@ export default function ZohoInvoice() {
           font-weight: 450;
         }
         .bold-end {
-          font-weight: 1000;
+          font-weight: 700;
         }
         .address-grid-end {
           display: grid;
@@ -154,7 +154,7 @@ export default function ZohoInvoice() {
         }
    .client-signature-end {
   display: grid;
-  grid-template-columns: repeat(2, 1fr); /* same as Tailwind's grid-cols-2 */
+  grid-template-columns: repeat(2, 1fr);
   gap: 32px;
   margin-top: 32px;
 }
@@ -225,7 +225,7 @@ export default function ZohoInvoice() {
 }
 
 .client-details-table-end tr > td:first-child {
-  font-weight: 1000;
+  font-weight: 700;
 }
 
    .pdf-maxw-290-end {
@@ -240,7 +240,8 @@ export default function ZohoInvoice() {
   justify-content: center;}
 
   .pdf-table-end tfoot td:last-child{
-  border-left:1px solid black;}
+  border-left:1px solid black;
+  }
 
       `}</style>
 
@@ -275,7 +276,7 @@ export default function ZohoInvoice() {
                 The following number must appear on all related correspondence,
                 shipping papers
               </p>
-              <p className="bold-end" style={{ marginTop: 0 }}>
+              <p className="bold-end" style={{ paddingTop: "1px" }}>
                 P.O. NUMBER: 15795
               </p>
             </div>
@@ -330,11 +331,11 @@ export default function ZohoInvoice() {
           <table className="pdf-table-end">
             <thead>
               <tr>
-                <th>P.O. DATE</th>
-                <th>REQUISITIONER</th>
-                <th>SHIPPED VIA</th>
-                <th>SHIPPING DATE</th>
-                <th>TERMS</th>
+                <th className="bold-end">P.O. DATE</th>
+                <th className="bold-end">REQUISITIONER</th>
+                <th className="bold-end">SHIPPED VIA</th>
+                <th className="bold-end">SHIPPING DATE</th>
+                <th className="bold-end">TERMS</th>
               </tr>
             </thead>
             <tbody>
@@ -351,11 +352,11 @@ export default function ZohoInvoice() {
         <table className="pdf-table-end">
           <thead>
             <tr>
-              <th>QTY</th>
-              <th>Duration</th>
-              <th>DESCRIPTION</th>
-              <th>UNIT PRICE</th>
-              <th>TOTAL</th>
+              <th className="bold-end">QTY</th>
+              <th className="bold-end">Duration</th>
+              <th className="bold-end">DESCRIPTION</th>
+              <th className="bold-end">UNIT PRICE</th>
+              <th className="bold-end">TOTAL</th>
             </tr>
           </thead>
           <tbody>
@@ -377,7 +378,7 @@ export default function ZohoInvoice() {
                   border: "none",
                 }}
               >
-                <strong>TOTAL</strong>
+                TOTAL
               </td>
               <td
                 style={{
@@ -392,7 +393,6 @@ export default function ZohoInvoice() {
             </tr>
           </tfoot>
         </table>
-
         <div className="text-block-end">
           <div className="client-signature-end">
             <div className="client-details-table-wrapper-end">

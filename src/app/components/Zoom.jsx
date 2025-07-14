@@ -8,7 +8,7 @@ import { useRef } from "react";
 const PAGE_WIDTH = 595;
 const PAGE_HEIGHT = 842;
 
-export default function NestNepalInvoice() {
+export default function NestNepalInvoice({ contact }) {
   const pageRef = useRef(null);
 
   const generateFullPDF = async () => {
@@ -19,7 +19,7 @@ export default function NestNepalInvoice() {
     window.scrollTo(0, 0);
 
     const canvas = await html2canvas(el, {
-      scale: 3,
+      scale: 3, // reduced for better visual fidelity
       width: PAGE_WIDTH,
       height: PAGE_HEIGHT,
       useCORS: true,
@@ -39,40 +39,14 @@ export default function NestNepalInvoice() {
       undefined,
       "FAST"
     );
-const generatePDF = () => {
-  const doc = new jsPDF();
-
-  doc.text("My Invoice", 14, 20);
-
-  doc.autoTable({
-    head: [["QTY", "Item", "Unit Price", "Total"]],
-    body: [
-      ["1", "Zoom License", "$135.92", "$135.92"],
-      ["1", "Zoom Whiteboard", "$21.17", "$21.17"],
-    ],
-    foot: [["", "", "TOTAL", "$156.09"]],
-    styles: {
-      fontSize: 10,
-      halign: "center",
-      valign: "middle",
-    },
-    headStyles: {
-      fillColor: [41, 128, 185],
-      textColor: "#fff",
-      halign: "center",
-    },
-    footStyles: {
-      fontStyle: "bold",
-      halign: "center",
-    },
-    theme: "grid", // adds grid borders
-    startY: 30, // start position on the page
-  });
-
-  doc.save("invoice.pdf");
-};
-  pdf.save("invoice.pdf");
+    pdf.save("invoice.pdf");
   };
+const todayNepal = new Date().toLocaleDateString("en-US", {
+  timeZone: "Asia/Kathmandu",
+  year: "numeric",
+  month: "long",
+  day: "numeric",
+});
 
   return (
     <div className={`container ${dmsansfont}`}>
@@ -130,7 +104,7 @@ const generatePDF = () => {
         }
 
         .bold {
-          font-weight: 1000;
+          font-weight: 700 !important;
         }
 
         .pdf-maxw-290 {
@@ -144,25 +118,28 @@ const generatePDF = () => {
           padding: 20px 0;
         }
 
-.pdf-table {
+    .pdf-table {
   width: 100%;
   margin-top: 16px;
   font-size: 10px;
-  border-collapse: separate;
-  border-spacing: 0;
+  border-spacing: 0; /* no collapse, but remove spacing */
+}
+
+.pdf-table td,
+.pdf-table th {
+  height: 25px;
+  line-height: 25px;
+  padding: 0;
+  // padding-bottom: 5px;
+  text-align: center;
+  vertical-align: middle
+  font-size: 10px;
+  border-bottom: 1px solid black;
+  border-right: 1px solid black;
+
 }
 
 
-.pdf-table th,
-.pdf-table td {
-  padding: 4px;
-  text-align: center !important;
-  vertical-align: middle !important;  /* Add this for vertical centering */
-}
-  .pdf-table td {
-  display: table-cell;
-  text-align: center !important;
-}
 /* Top border */
 .pdf-table tr:first-child th {
   border-top: 1px solid black;
@@ -191,10 +168,8 @@ const generatePDF = () => {
   border-bottom: 1px solid black;
   border-right: 1px solid black;
 }
-
-
         .pdf-table tfoot td {
-          font-weight: bold;
+          font-weight: 450;
           text-align: center;
         }
         .pdf-total-label {
@@ -240,7 +215,6 @@ const generatePDF = () => {
       </button>
 
       <div ref={pageRef} className="pdf-page">
-        {/* Header */}
         <div
           className="text-block"
           style={{
@@ -282,9 +256,9 @@ const generatePDF = () => {
               </p>
               <p
                 className="bold"
-                style={{ marginTop: "2px", marginBottom: "0" }}
+                style={{ paddingTop: "1px", marginBottom: "0" }}
               >
-                P.O. NUMBER: 15853
+                P.O. NUMBER: {contact.poNumber}
               </p>
             </div>
           </div>
@@ -292,20 +266,18 @@ const generatePDF = () => {
             <img src="/icon.png" alt="logo" />
           </div>
         </div>
-
         <div className="address-grid text-block">
           <div>
             <p className="bold">TO:</p>
-            <p style={{ marginTop: "12px", lineHeight: "1.4" }}>
-              INFLOW TECHNOLOGIES
-              <br />
-              (SINGAPORE) PTE LTD
-              <br />
-              101 Cecil Street
-              <br />
-              #19-03 Tong Eng Building
-              <br />
-              Singapore 069533
+            <p
+              style={{
+                marginTop: "12px",
+                lineHeight: "1.4",
+                whiteSpace: "pre-line",
+              }}
+            >
+              {contact.address ||
+                `INFLOW TECHNOLOGIES\n(SINGAPORE) PTE LTD\n101 Cecil Street\n#19-03 Tong Eng Building\nSingapore 069533`}
             </p>
           </div>
           <div>
@@ -336,17 +308,17 @@ const generatePDF = () => {
 
         <table className="pdf-table">
           <thead>
-            <tr>
-              <th >P.O. DATE</th>
-              <th>REQUISITIONER</th>
-              <th>SHIPPED VIA</th>
-              <th>SHIPPING DATE</th>
-              <th>TERMS</th>
+            <tr className="bold">
+              <th className="bold">P.O. DATE</th>
+              <th className="bold">REQUISITIONER</th>
+              <th className="bold">SHIPPED VIA</th>
+              <th className="bold">SHIPPING DATE</th>
+              <th className="bold">TERMS</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td>July 10, 2025</td>
+              <td>{todayNepal}</td>
               <td>Subas Kandel</td>
               <td>N/A</td>
               <td>N/A</td>
@@ -354,38 +326,38 @@ const generatePDF = () => {
             </tr>
           </tbody>
         </table>
-
         <table className="pdf-table">
           <thead>
             <tr>
-              <th>QTY</th>
-              <th>Duration</th>
-              <th>DESCRIPTION</th>
-              <th>UNIT PRICE</th>
-              <th>TOTAL</th>
+              <th className="bold">QTY</th>
+              <th className="bold">Duration</th>
+              <th className="bold">DESCRIPTION</th>
+              <th className="bold">UNIT PRICE</th>
+              <th className="bold">TOTAL</th>
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>1 License</td>
-              <td>1 year</td>
-              <td>Zoom One - Pro - 1 Year Prepay (PAR1-PRO-BASE-NH1Y)</td>
-              <td>$135.92</td>
-              <td>$135.92</td>
-            </tr>
-            <tr>
-              <td>1 License</td>
-              <td>1 year</td>
-              <td>Zoom Whiteboard - Unlimited Boards - 1 Year Prepay</td>
-              <td>$21.17</td>
-              <td>$21.17</td>
-            </tr>
+            {contact.items?.map((item, index) => (
+              <tr key={index}>
+                <td
+                  style={{
+                    lineHeight: "height",
+                  }}
+                >
+                  {item.qty}
+                </td>
+                <td>{item.duration}</td>
+                <td>{item.description}</td>
+                <td>${item.unitPrice.toFixed(2)}</td>
+                <td>${item.total.toFixed(2)}</td>
+              </tr>
+            ))}
           </tbody>
           <tfoot>
             <tr>
               <td
                 colSpan="4"
-                className="pdf-total-cell bold"
+                className="pdf-total-cell "
                 style={{
                   textAlign: "right",
                   border: "none",
@@ -396,14 +368,16 @@ const generatePDF = () => {
               </td>
               <td
                 style={{
-                  fontWeight: "bold",
                   textAlign: "center",
                   borderRight: "1px solid black",
                   borderBottom: "1px solid black",
                   borderLeft: "1px solid black",
                 }}
               >
-                $156.09
+                $
+                {contact.items
+                  ?.reduce((sum, item) => sum + item.total, 0)
+                  .toFixed(2)}
               </td>
             </tr>
           </tfoot>
@@ -413,14 +387,45 @@ const generatePDF = () => {
           <div>
             <p className="bold">Client Details:</p>
             <div style={{ marginTop: "8px" }}>
-              <p>Company Name: MOF IECCD</p>
-              <p>Email: ieccdzoom@mof.gov.np</p>
-              <p>DR: DR-185153</p>
+              {contact.product === "Zoom" && (
+                <>
+                  <p>Company Name: {contact.companyName}</p>
+                  <p>Email: {contact.email}</p>
+                  <p>DR: {contact.dr}</p>
+                </>
+              )}
+
+              {contact.product === "Zoho" && (
+                <>
+                  <p>Company Name: {contact.companyName}</p>
+                  <p>Primary Domain: {contact.primaryDomain}</p>
+                  <p>Address Line 1: {contact.addressLine1}</p>
+                  <p>City: {contact.city}</p>
+                  <p>State: {contact.state}</p>
+                  <p>Zip Code: {contact.zipCode}</p>
+                  <p>Profile: {contact.profile}</p>
+                </>
+              )}
+
+              {contact.product === "Microsoft" && (
+                <>
+                  <p>Company Name: {contact.companyName}</p>
+                  <p>Primary Domain: {contact.primaryDomain}</p>
+                  <p>Address Line 1: {contact.addressLine1}</p>
+                  <p>City: {contact.city}</p>
+                  <p>State: {contact.state}</p>
+                  <p>Zip Code: {contact.zipCode}</p>
+                  <p>Customer Contact: {contact.contactPerson}</p>
+                  <p>Email: {contact.email}</p>
+                  <p>Phone: {contact.phone}</p>
+                </>
+              )}
             </div>
           </div>
+
           <div className="pdf-sign-block">
             <p style={{ textAlign: "left" }}>Authorized by</p>
-            <div style={{ marginTop: "8px" }}>
+            <div style={{ marginTop: "16px" }}>
               <p>Subas Kandel</p>
               <p>
                 COO

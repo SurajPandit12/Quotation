@@ -95,7 +95,7 @@ export default function ZohoInvoice() {
           font-weight: 450;
         }
         .bold-micro {
-          font-weight: 1000;
+          font-weight: 700;
         }
         .address-grid-micro {
           display: grid;
@@ -175,7 +175,7 @@ export default function ZohoInvoice() {
           font-weight: normal;
         }
         .client-details-table-micro tr > td:first-child {
-          font-weight: 1000;
+          font-weight: 700;
         }
         .pdf-maxw-290-micro {
           max-width: 290px;
@@ -234,7 +234,7 @@ export default function ZohoInvoice() {
                 The following number must appear on all related correspondence,
                 shipping papers
               </p>
-              <p className="bold-micro" style={{ marginTop: 0 }}>
+              <p className="bold-micro" style={{ paddingTop: "1px" }}>
                 P.O. NUMBER: 15879
               </p>
             </div>
@@ -288,11 +288,11 @@ export default function ZohoInvoice() {
           <table className="pdf-table-micro">
             <thead>
               <tr>
-                <th>P.O. DATE</th>
-                <th>REQUISITIONER</th>
-                <th>SHIPPED VIA</th>
-                <th>SHIPPING DATE</th>
-                <th>TERMS</th>
+                <th className="bold-micro">P.O. DATE</th>
+                <th className="bold-micro">REQUISITIONER</th>
+                <th className="bold-micro">SHIPPED VIA</th>
+                <th className="bold-micro">SHIPPING DATE</th>
+                <th className="bold-micro">TERMS</th>
               </tr>
             </thead>
             <tbody>
@@ -310,11 +310,21 @@ export default function ZohoInvoice() {
         <table className="pdf-table-micro">
           <thead>
             <tr>
-              <th style={{ width: "12%" }}>QTY</th>
-              <th style={{ width: "12%" }}>Duration</th>
-              <th style={{ width: "44%" }}>DESCRIPTION</th>
-              <th style={{ width: "16%" }}>UNIT PRICE</th>
-              <th style={{ width: "16%" }}>TOTAL</th>
+              <th style={{ width: "12%" }} className="bold-micro">
+                QTY
+              </th>
+              <th style={{ width: "12%" }} className="bold-micro">
+                Duration
+              </th>
+              <th style={{ width: "44%" }} className="bold-micro">
+                DESCRIPTION
+              </th>
+              <th style={{ width: "16%" }} className="bold-micro">
+                UNIT PRICE
+              </th>
+              <th style={{ width: "16%" }} className="bold-micro">
+                TOTAL
+              </th>
             </tr>
           </thead>
           <tbody>
@@ -336,9 +346,10 @@ export default function ZohoInvoice() {
                   border: "none",
                 }}
               >
-                <strong>TOTAL</strong>
+                TOTAL
               </td>
               <td
+              colSpan="1"
                 style={{
                   textAlign: "center",
                   position: "relative",
@@ -403,7 +414,7 @@ export default function ZohoInvoice() {
                     <td></td>
                   </tr>
                   <tr>
-                    <td>Customer Email  </td>
+                    <td>Customer Email </td>
                     <td>:</td>
                     <td>contact@nestnepal.com.np</td>
                   </tr>
