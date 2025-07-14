@@ -16,15 +16,15 @@ const Page = () => {
     address: `INFLOW TECHNOLOGIES\n(SINGAPORE) PTE LTD\n101 Cecil Street\n#19-03 Tong Eng Building\nSingapore 069533`,
     items: [
       {
-        qty: "1 License",
-        duration: "1 year",
+        qty: "1",
+        duration: "1",
         description: "Zoom One - Pro - 1 Year Prepay (PAR1-PRO-BASE-NH1Y)",
         unitPrice: 135.92,
         total: 135.92,
       },
       {
-        qty: "1 License",
-        duration: "1 year",
+        qty: "1",
+        duration: "1",
         description: "Zoom Whiteboard - Unlimited Boards - 1 Year Prepay",
         unitPrice: 21.17,
         total: 21.17,

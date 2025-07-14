@@ -1,10 +1,11 @@
 "use client";
 
-import React, { useState } from "react";
+import { useState } from "react";
 
 const ContactPopup = ({ contactData, setContactData }) => {
   const [showPopup, setShowPopup] = useState(false);
   const togglePopup = () => setShowPopup(!showPopup);
+
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -14,13 +15,12 @@ const ContactPopup = ({ contactData, setContactData }) => {
     }));
   };
 
-
-
   const productAddresses = {
     Zoom: `INFLOW TECHNOLOGIES\n(SINGAPORE) PTE LTD\n101 Cecil Street\n#19-03 Tong Eng Building\nSingapore 069533`,
     Zoho: `ZOHO CORPORATION PTE LTD\n105 CECIL STREET, #10-04\nTHE OCTAGON SINGAPORE\n069534`,
     Microsoft: `CONNEX INFORMATION\nTECHNOLOGIES (PVT) LTD\nNO.286,R.A.DE MEL MAWATHA,\nCOLOMBO 3\nSRILANKA`,
   };
+
   const productClientDetails = {
     Zoom: {
       companyName: "MOF IECCD",
@@ -48,31 +48,54 @@ const ContactPopup = ({ contactData, setContactData }) => {
       phone: "9851139234",
     },
   };
-const productDescriptions = {
-  Zoom: [
-    "Zoom One - Pro - 1 Year Prepay (PAR1-PRO-BASE-NH1Y)",
-    "Zoom Whiteboard - Unlimited Boards - 1 Year Prepay",
-  ],
-  Zoho: ["Zoho Mail lite"],
-  Microsoft: ["Microsoft Apps For Business"],
-};
 
-const priceMap = {
-  "Zoom One - Pro - 1 Year Prepay (PAR1-PRO-BASE-NH1Y)": 135.92,
-  "Zoom Whiteboard - Unlimited Boards - 1 Year Prepay": 21.17,
-  "Zoho Mail lite": 10.0,
-  "Microsoft Apps For Business": 99.99,
-};
+  const productDescriptions = {
+    Zoom: [
+      "Zoom One - Pro - 1 Year Prepay (PAR1-PRO-BASE-NH1Y)",
+      "Zoom Whiteboard - Unlimited Boards - 1 Year Prepay",
+    ],
+    Zoho: ["Zoho Mail lite"],
+    Microsoft: ["Microsoft Apps For Business"],
+  };
+
+  const priceMap = {
+    "Zoom One - Pro - 1 Year Prepay (PAR1-PRO-BASE-NH1Y)": 135.92,
+    "Zoom Whiteboard - Unlimited Boards - 1 Year Prepay": 21.17,
+    "Zoho Mail lite": 80.18,
+    "Microsoft Apps For Business": 80.18,
+  };
+
+  const addNewItem = () => {
+    const firstDescription = productDescriptions[contactData.product][0];
+    const newItem = {
+      qty: "",
+      duration: "",
+      description: firstDescription,
+      unitPrice: priceMap[firstDescription],
+      total: priceMap[firstDescription],
+    };
+    setContactData({
+      ...contactData,
+      items: [...contactData.items, newItem],
+    });
+  };
+
+  const removeItem = (index) => {
+    const newItems = [...contactData.items];
+    newItems.splice(index, 1);
+    setContactData({ ...contactData, items: newItems });
+  };
 
   return (
     <>
       <button
         onClick={togglePopup}
+        className="edit-contact-button"
         style={{
           position: "fixed",
           right: "20px",
           top: "20px",
-          backgroundColor: "#2563eb",
+          backgroundColor: "#4f46e5",
           color: "white",
           padding: "10px 20px",
           fontSize: "16px",
@@ -81,8 +104,36 @@ const priceMap = {
           cursor: "pointer",
           boxShadow: "0 4px 6px rgba(0,0,0,0.1)",
           zIndex: 1000,
+          transition: "all 0.2s ease",
+          display: "flex",
+          alignItems: "center",
+          gap: "8px",
+        }}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.backgroundColor = "#4338ca";
+          e.currentTarget.style.transform = "translateY(-2px)";
+          e.currentTarget.style.boxShadow = "0 6px 8px rgba(0,0,0,0.15)";
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.backgroundColor = "#4f46e5";
+          e.currentTarget.style.transform = "translateY(0)";
+          e.currentTarget.style.boxShadow = "0 4px 6px rgba(0,0,0,0.1)";
         }}
       >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
+          <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+          <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+        </svg>
         Edit Contact
       </button>
 
@@ -93,51 +144,107 @@ const priceMap = {
             top: "50%",
             left: "50%",
             transform: "translate(-50%, -50%)",
-            backgroundColor: "#f9fafb",
+            backgroundColor: "#ffffff",
             padding: "32px",
-            borderRadius: "16px",
-            boxShadow: "0 20px 50px rgba(0,0,0,0.2)",
+            borderRadius: "12px",
+            boxShadow: "0 10px 25px rgba(0,0,0,0.2)",
             zIndex: 1001,
             width: "90%",
             maxWidth: "700px",
             overflowY: "auto",
             maxHeight: "90vh",
+            border: "1px solid #e5e7eb",
           }}
         >
-          <h2
+          <div
             style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
               marginBottom: "24px",
-              textAlign: "center",
-              fontSize: "24px",
-              color: "#111827",
-              fontWeight: "600",
+              paddingBottom: "16px",
+              borderBottom: "1px solid #e5e7eb",
             }}
           >
-            Edit Contact Information
-          </h2>
-          <label style={{ display: "block", marginBottom: "16px" }}>
-            <span style={{ display: "block", marginBottom: "6px" }}>
+            <h2
+              style={{
+                margin: 0,
+                fontSize: "22px",
+                color: "#111827",
+                fontWeight: "600",
+              }}
+            >
+              Edit Contact Information
+            </h2>
+            <button
+              onClick={togglePopup}
+              style={{
+                background: "none",
+                border: "none",
+                cursor: "pointer",
+                color: "#6b7280",
+                fontSize: "20px",
+                padding: "4px",
+              }}
+              aria-label="Close"
+            >
+              ×
+            </button>
+          </div>
+
+          <div style={{ marginBottom: "24px" }}>
+            <label
+              style={{
+                display: "block",
+                marginBottom: "8px",
+                fontWeight: "500",
+                color: "#374151",
+                fontSize: "14px",
+              }}
+            >
               Select Product
-            </span>
+            </label>
             <select
+              value={contactData.product}
               onChange={(e) => {
                 const selected = e.target.value;
                 const descriptions = productDescriptions[selected];
-                const newItems = descriptions.map((desc) => ({
-                  qty: "1 License",
-                  duration: "1 year",
-                  description: desc,
-                  unitPrice: priceMap[desc],
-                  total: priceMap[desc],
-                }));
+                const newItems = [
+                  {
+                    qty: "1 License",
+                    duration: "1 year",
+                    description: descriptions[0],
+                    unitPrice: priceMap[descriptions[0]],
+                    total: priceMap[descriptions[0]],
+                  },
+                ];
 
                 setContactData((prev) => ({
                   ...prev,
                   product: selected,
                   address: productAddresses[selected],
                   items: newItems,
-                  ...productClientDetails[selected], // maintain existing
+                  ...productClientDetails[selected],
                 }));
+              }}
+              style={{
+                width: "100%",
+                padding: "10px 12px",
+                borderRadius: "8px",
+                border: "1px solid #d1d5db",
+                fontSize: "15px",
+                backgroundColor: "#f9fafb",
+                transition: "all 0.2s ease",
+              }}
+              onFocus={(e) => {
+                e.target.style.borderColor = "#4f46e5";
+                e.target.style.boxShadow = "0 0 0 3px rgba(79, 70, 229, 0.1)";
+                e.target.style.backgroundColor = "#ffffff";
+              }}
+              onBlur={(e) => {
+                e.target.style.borderColor = "#d1d5db";
+                e.target.style.boxShadow = "none";
+                e.target.style.backgroundColor = "#f9fafb";
               }}
             >
               {Object.keys(productAddresses).map((product) => (
@@ -146,306 +253,601 @@ const priceMap = {
                 </option>
               ))}
             </select>
-          </label>
-          {/* {["companyName", "email", "dr", "poNumber"].map((field) => (
+          </div>
+
+          <div style={{ marginBottom: "24px" }}>
             <label
-              key={field}
-              style={{ display: "block", marginBottom: "16px" }}
+              style={{
+                display: "block",
+                marginBottom: "8px",
+                fontWeight: "500",
+                color: "#374151",
+                fontSize: "14px",
+              }}
             >
-              <span style={{ display: "block", marginBottom: "6px" }}>
-                {field === "dr" ? "DR" : field.replace(/([A-Z])/g, " $1")}
-              </span>
-              <input
-                type={field === "email" ? "email" : "text"}
-                name={field}
-                value={contactData[field] || ""}
-                onChange={handleChange}
-                style={{
-                  width: "100%",
-                  padding: "10px",
-                  borderRadius: "8px",
-                  border: "1px solid #d1d5db",
-                  fontSize: "15px",
-                }}
-              />
-            </label>
-          ))} */}
-          {/* Dynamic Client Details Form */}
-          <label style={{ display: "block", marginBottom: "16px" }}>
-            <span style={{ display: "block", marginBottom: "6px" }}>
               P.O. Number
-            </span>
+            </label>
             <input
-              type="text"
+              type="number"
               name="poNumber"
               value={contactData.poNumber || ""}
               onChange={handleChange}
               style={{
                 width: "100%",
-                padding: "10px",
+                padding: "10px 12px",
                 borderRadius: "8px",
                 border: "1px solid #d1d5db",
                 fontSize: "15px",
+                backgroundColor: "#f9fafb",
+                transition: "all 0.2s ease",
+              }}
+              onFocus={(e) => {
+                e.target.style.borderColor = "#4f46e5";
+                e.target.style.boxShadow = "0 0 0 3px rgba(79, 70, 229, 0.1)";
+                e.target.style.backgroundColor = "#ffffff";
+              }}
+              onBlur={(e) => {
+                e.target.style.borderColor = "#d1d5db";
+                e.target.style.boxShadow = "none";
+                e.target.style.backgroundColor = "#f9fafb";
               }}
             />
-          </label>
-          <h3 style={{ fontSize: "18px", margin: "20px 0 10px" }}>
-            Client Details
-          </h3>
+          </div>
 
-          {contactData.product === "Zoom" && (
-            <>
-              {["companyName", "email", "dr"].map((field) => (
-                <label
-                  key={field}
-                  style={{ display: "block", marginBottom: "16px" }}
-                >
-                  <span style={{ display: "block", marginBottom: "6px" }}>
-                    {field === "dr" ? "DR" : field.replace(/([A-Z])/g, " $1")}
-                  </span>
-                  <input
-                    type="text"
-                    name={field}
-                    value={contactData[field] || ""}
-                    onChange={handleChange}
-                    style={{
-                      width: "100%",
-                      padding: "10px",
-                      borderRadius: "8px",
-                      border: "1px solid #d1d5db",
-                      fontSize: "15px",
-                    }}
-                  />
-                </label>
-              ))}
-            </>
-          )}
-
-          {contactData.product === "Zoho" && (
-            <>
-              {[
-                "companyName",
-                "primaryDomain",
-                "addressLine1",
-                "city",
-                "state",
-                "zipCode",
-                "profile",
-              ].map((field) => (
-                <label
-                  key={field}
-                  style={{ display: "block", marginBottom: "16px" }}
-                >
-                  <span style={{ display: "block", marginBottom: "6px" }}>
-                    {field.replace(/([A-Z])/g, " $1")}
-                  </span>
-                  <input
-                    type="text"
-                    name={field}
-                    value={contactData[field] || ""}
-                    onChange={handleChange}
-                    style={{
-                      width: "100%",
-                      padding: "10px",
-                      borderRadius: "8px",
-                      border: "1px solid #d1d5db",
-                      fontSize: "15px",
-                    }}
-                  />
-                </label>
-              ))}
-            </>
-          )}
-
-          {contactData.product === "Microsoft" && (
-            <>
-              {[
-                "companyName",
-                "primaryDomain",
-                "addressLine1",
-                "city",
-                "state",
-                "zipCode",
-                "contactPerson",
-                "email",
-                "phone",
-              ].map((field) => (
-                <label
-                  key={field}
-                  style={{ display: "block", marginBottom: "16px" }}
-                >
-                  <span style={{ display: "block", marginBottom: "6px" }}>
-                    {field.replace(/([A-Z])/g, " $1")}
-                  </span>
-                  <input
-                    type={field === "email" ? "email" : "text"}
-                    name={field}
-                    value={contactData[field] || ""}
-                    onChange={handleChange}
-                    style={{
-                      width: "100%",
-                      padding: "10px",
-                      borderRadius: "8px",
-                      border: "1px solid #d1d5db",
-                      fontSize: "15px",
-                    }}
-                  />
-                </label>
-              ))}
-            </>
-          )}
-
-          <h3 style={{ fontSize: "18px", margin: "20px 0 10px" }}>Items</h3>
-
-          {contactData.items.map((item, index) => (
-            <div
-              key={index}
+          <div
+            style={{
+              marginBottom: "24px",
+              padding: "16px",
+              borderRadius: "8px",
+              backgroundColor: "#f9fafb",
+              border: "1px solid #e5e7eb",
+            }}
+          >
+            <h3
               style={{
-                border: "1px solid #d1d5db",
-                padding: "16px",
-                borderRadius: "12px",
-                marginBottom: "20px",
-                backgroundColor: "#fff",
+                fontSize: "16px",
+                margin: "0 0 16px 0",
+                color: "#111827",
+                fontWeight: "600",
+                display: "flex",
+                alignItems: "center",
+                gap: "8px",
               }}
             >
-              <div
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                <circle cx="12" cy="7" r="4"></circle>
+              </svg>
+              Client Details
+            </h3>
+
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))",
+                gap: "16px",
+              }}
+            >
+              {contactData.product === "Zoom" &&
+                ["companyName", "email", "dr"].map((field) => (
+                  <div key={field}>
+                    <label
+                      style={{
+                        display: "block",
+                        marginBottom: "6px",
+                        fontWeight: "500",
+                        color: "#374151",
+                        fontSize: "14px",
+                      }}
+                    >
+                      {field === "dr" ? "DR" : field.replace(/([A-Z])/g, " $1")}
+                    </label>
+                    <input
+                      type="text"
+                      name={field}
+                      value={contactData[field] || ""}
+                      onChange={handleChange}
+                      style={{
+                        width: "100%",
+                        padding: "8px 12px",
+                        borderRadius: "6px",
+                        border: "1px solid #d1d5db",
+                        fontSize: "14px",
+                        backgroundColor: "#ffffff",
+                        transition: "all 0.2s ease",
+                      }}
+                      onFocus={(e) => {
+                        e.target.style.borderColor = "#4f46e5";
+                        e.target.style.boxShadow =
+                          "0 0 0 3px rgba(79, 70, 229, 0.1)";
+                      }}
+                      onBlur={(e) => {
+                        e.target.style.borderColor = "#d1d5db";
+                        e.target.style.boxShadow = "none";
+                      }}
+                    />
+                  </div>
+                ))}
+
+              {contactData.product === "Zoho" &&
+                [
+                  "companyName",
+                  "primaryDomain",
+                  "addressLine1",
+                  "city",
+                  "state",
+                  "zipCode",
+                  "profile",
+                ].map((field) => (
+                  <div key={field}>
+                    <label
+                      style={{
+                        display: "block",
+                        marginBottom: "6px",
+                        fontWeight: "500",
+                        color: "#374151",
+                        fontSize: "14px",
+                      }}
+                    >
+                      {field.replace(/([A-Z])/g, " $1")}
+                    </label>
+                    <input
+                      type="text"
+                      name={field}
+                      value={contactData[field] || ""}
+                      onChange={handleChange}
+                      style={{
+                        width: "100%",
+                        padding: "8px 12px",
+                        borderRadius: "6px",
+                        border: "1px solid #d1d5db",
+                        fontSize: "14px",
+                        backgroundColor: "#ffffff",
+                        transition: "all 0.2s ease",
+                      }}
+                      onFocus={(e) => {
+                        e.target.style.borderColor = "#4f46e5";
+                        e.target.style.boxShadow =
+                          "0 0 0 3px rgba(79, 70, 229, 0.1)";
+                      }}
+                      onBlur={(e) => {
+                        e.target.style.borderColor = "#d1d5db";
+                        e.target.style.boxShadow = "none";
+                      }}
+                    />
+                  </div>
+                ))}
+
+              {contactData.product === "Microsoft" &&
+                [
+                  "companyName",
+                  "primaryDomain",
+                  "addressLine1",
+                  "city",
+                  "state",
+                  "zipCode",
+                  "contactPerson",
+                  "email",
+                  "phone",
+                ].map((field) => (
+                  <div key={field}>
+                    <label
+                      style={{
+                        display: "block",
+                        marginBottom: "6px",
+                        fontWeight: "500",
+                        color: "#374151",
+                        fontSize: "14px",
+                      }}
+                    >
+                      {field.replace(/([A-Z])/g, " $1")}
+                    </label>
+                    <input
+                      type={field === "email" ? "email" : "text"}
+                      name={field}
+                      value={contactData[field] || ""}
+                      onChange={handleChange}
+                      style={{
+                        width: "100%",
+                        padding: "8px 12px",
+                        borderRadius: "6px",
+                        border: "1px solid #d1d5db",
+                        fontSize: "14px",
+                        backgroundColor: "#ffffff",
+                        transition: "all 0.2s ease",
+                      }}
+                      onFocus={(e) => {
+                        e.target.style.borderColor = "#4f46e5";
+                        e.target.style.boxShadow =
+                          "0 0 0 3px rgba(79, 70, 229, 0.1)";
+                      }}
+                      onBlur={(e) => {
+                        e.target.style.borderColor = "#d1d5db";
+                        e.target.style.boxShadow = "none";
+                      }}
+                    />
+                  </div>
+                ))}
+            </div>
+          </div>
+
+          <div
+            style={{
+              marginBottom: "24px",
+              padding: "16px",
+              borderRadius: "8px",
+              backgroundColor: "#f9fafb",
+              border: "1px solid #e5e7eb",
+            }}
+          >
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                marginBottom: "16px",
+              }}
+            >
+              <h3
                 style={{
+                  fontSize: "16px",
+                  margin: 0,
+                  color: "#111827",
+                  fontWeight: "600",
                   display: "flex",
-                  gap: "12px",
-                  flexWrap: "wrap",
-                  marginBottom: "12px",
+                  alignItems: "center",
+                  gap: "8px",
                 }}
               >
-                <div style={{ flex: "1" }}>
-                  <label style={{ display: "block", marginBottom: "6px" }}>
-                    Quantity
-                  </label>
-                  <input
-                    type="text"
-                    value={item.qty}
-                    onChange={(e) => {
-                      const newItems = [...contactData.items];
-                      newItems[index].qty = e.target.value;
-
-                      const qtyNum = parseFloat(e.target.value) || 0;
-                      newItems[index].total =
-                        qtyNum * (newItems[index].unitPrice || 0);
-                      setContactData({ ...contactData, items: newItems });
-                    }}
-                    style={{
-                      width: "100%",
-                      padding: "8px",
-                      borderRadius: "6px",
-                      border: "1px solid #d1d5db",
-                    }}
-                  />
-                </div>
-                <div style={{ flex: "1" }}>
-                  <label style={{ display: "block", marginBottom: "6px" }}>
-                    Duration
-                  </label>
-                  <input
-                    type="text"
-                    value={item.duration}
-                    onChange={(e) => {
-                      const newItems = [...contactData.items];
-                      newItems[index].duration = e.target.value;
-                      setContactData({ ...contactData, items: newItems });
-                    }}
-                    style={{
-                      width: "100%",
-                      padding: "8px",
-                      borderRadius: "6px",
-                      border: "1px solid #d1d5db",
-                    }}
-                  />
-                </div>
-
-                <div style={{ flex: "2" }}>
-                  <label style={{ display: "block", marginBottom: "6px" }}>
-                    Description
-                  </label>
-                  <select
-                    value={item.description}
-                    onChange={(e) => {
-                      const desc = e.target.value;
-                      const newItems = [...contactData.items];
-                      newItems[index].description = desc;
-                      newItems[index].unitPrice = priceMap[desc];
-                      newItems[index].total =
-                        newItems[index].qty * priceMap[desc];
-                      setContactData({ ...contactData, items: newItems });
-                    }}
-                    style={{
-                      width: "100%",
-                      padding: "8px",
-                      borderRadius: "6px",
-                      border: "1px solid #d1d5db",
-                    }}
-                  >
-                    {(productDescriptions[contactData.product] || []).map(
-                      (desc) => (
-                        <option key={desc} value={desc}>
-                          {desc}
-                        </option>
-                      )
-                    )}
-                  </select>
-                </div>
-
-                {/* Unit Price */}
-                <div style={{ flex: "1" }}>
-                  <label style={{ display: "block", marginBottom: "6px" }}>
-                    Unit Price ($)
-                  </label>
-                  <input
-                    type="number"
-                    step="0.01"
-                    value={item.unitPrice}
-                    onChange={(e) => {
-                      const newItems = [...contactData.items];
-                      newItems[index].unitPrice = parseFloat(e.target.value);
-                      const qtyNum = parseFloat(newItems[index].qty) || 0;
-                      newItems[index].total =
-                        qtyNum * parseFloat(e.target.value || 0);
-                      setContactData({ ...contactData, items: newItems });
-                    }}
-                    style={{
-                      width: "100%",
-                      padding: "8px",
-                      borderRadius: "6px",
-                      border: "1px solid #d1d5db",
-                    }}
-                  />
-                </div>
-              </div>
-
-              <div style={{ fontSize: "14px", color: "#374151" }}>
-                Unit Price: ${item.unitPrice?.toFixed(2) || "0.00"} <br />
-                Total: ${item.total?.toFixed(2) || "0.00"}
-              </div>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                  <polyline points="14 2 14 8 20 8"></polyline>
+                  <line x1="16" y1="13" x2="8" y2="13"></line>
+                  <line x1="16" y1="17" x2="8" y2="17"></line>
+                  <polyline points="10 9 9 9 8 9"></polyline>
+                </svg>
+                Items
+              </h3>
+              <button
+                onClick={addNewItem}
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "6px",
+                  padding: "6px 12px",
+                  backgroundColor: "#4f46e5",
+                  color: "white",
+                  border: "none",
+                  borderRadius: "6px",
+                  fontSize: "14px",
+                  cursor: "pointer",
+                  transition: "all 0.2s ease",
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.backgroundColor = "#4338ca";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.backgroundColor = "#4f46e5";
+                }}
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <line x1="12" y1="5" x2="12" y2="19"></line>
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                </svg>
+                Add Item
+              </button>
             </div>
-          ))}
+
+            {contactData.items.map((item, index) => (
+              <div
+                key={index}
+                style={{
+                  border: "1px solid #e5e7eb",
+                  padding: "16px",
+                  borderRadius: "8px",
+                  marginBottom: "16px",
+                  backgroundColor: "#ffffff",
+                  position: "relative",
+                }}
+              >
+                {contactData.items.length > 1 && (
+                  <button
+                    onClick={() => removeItem(index)}
+                    style={{
+                      position: "absolute",
+                      top: "-10px",
+                      right: "-10px",
+                      width: "24px",
+                      height: "24px",
+                      borderRadius: "50%",
+                      backgroundColor: "#ef4444",
+                      color: "white",
+                      border: "none",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      cursor: "pointer",
+                      boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
+                    }}
+                    aria-label="Remove item"
+                  >
+                    ×
+                  </button>
+                )}
+                <div
+                  style={{
+                    display: "grid",
+                    gridTemplateColumns:
+                      "repeat(auto-fill, minmax(150px, 1fr))",
+                    gap: "12px",
+                    marginBottom: "12px",
+                  }}
+                >
+                  <div>
+                    <label
+                      style={{
+                        display: "block",
+                        marginBottom: "6px",
+                        fontWeight: "500",
+                        color: "#374151",
+                        fontSize: "14px",
+                      }}
+                    >
+                      Quantity
+                    </label>
+                    <input
+                      type="number"
+                      value={item.qty}
+                      onChange={(e) => {
+                        const newItems = [...contactData.items];
+                        newItems[index].qty = e.target.value;
+                        const qtyNum = parseFloat(
+                          e.target.value.match(/\d+/)?.[0] || 0
+                        );
+                        newItems[index].total =
+                          qtyNum * (newItems[index].unitPrice || 0);
+                        setContactData({ ...contactData, items: newItems });
+                      }}
+                      style={{
+                        width: "100%",
+                        padding: "8px 12px",
+                        borderRadius: "6px",
+                        border: "1px solid #d1d5db",
+                        fontSize: "14px",
+                        backgroundColor: "#ffffff",
+                        transition: "all 0.2s ease",
+                      }}
+                      onFocus={(e) => {
+                        e.target.style.borderColor = "#4f46e5";
+                        e.target.style.boxShadow =
+                          "0 0 0 3px rgba(79, 70, 229, 0.1)";
+                      }}
+                      onBlur={(e) => {
+                        e.target.style.borderColor = "#d1d5db";
+                        e.target.style.boxShadow = "none";
+                      }}
+                    />
+                  </div>
+
+                  <div>
+                    <label
+                      style={{
+                        display: "block",
+                        marginBottom: "6px",
+                        fontWeight: "500",
+                        color: "#374151",
+                        fontSize: "14px",
+                      }}
+                    >
+                      Duration
+                    </label>
+                    <input
+                      type="number"
+                      value={item.duration}
+                      onChange={(e) => {
+                        const newItems = [...contactData.items];
+                        newItems[index].duration = e.target.value;
+                        setContactData({ ...contactData, items: newItems });
+                      }}
+                      style={{
+                        width: "100%",
+                        padding: "8px 12px",
+                        borderRadius: "6px",
+                        border: "1px solid #d1d5db",
+                        fontSize: "14px",
+                        backgroundColor: "#ffffff",
+                        transition: "all 0.2s ease",
+                      }}
+                      onFocus={(e) => {
+                        e.target.style.borderColor = "#4f46e5";
+                        e.target.style.boxShadow =
+                          "0 0 0 3px rgba(79, 70, 229, 0.1)";
+                      }}
+                      onBlur={(e) => {
+                        e.target.style.borderColor = "#d1d5db";
+                        e.target.style.boxShadow = "none";
+                      }}
+                    />
+                  </div>
+
+                  <div style={{ gridColumn: "span 2" }}>
+                    <label
+                      style={{
+                        display: "block",
+                        marginBottom: "6px",
+                        fontWeight: "500",
+                        color: "#374151",
+                        fontSize: "14px",
+                      }}
+                    >
+                      Description
+                    </label>
+                    <select
+                      value={item.description}
+                      onChange={(e) => {
+                        const desc = e.target.value;
+                        const newItems = [...contactData.items];
+                        newItems[index].description = desc;
+                        newItems[index].unitPrice = priceMap[desc];
+                        newItems[index].total =
+                          newItems[index].qty * priceMap[desc];
+                        setContactData({ ...contactData, items: newItems });
+                      }}
+                      style={{
+                        width: "100%",
+                        padding: "8px 12px",
+                        borderRadius: "6px",
+                        border: "1px solid #d1d5db",
+                        fontSize: "14px",
+                        backgroundColor: "#ffffff",
+                        transition: "all 0.2s ease",
+                      }}
+                      onFocus={(e) => {
+                        e.target.style.borderColor = "#4f46e5";
+                        e.target.style.boxShadow =
+                          "0 0 0 3px rgba(79, 70, 229, 0.1)";
+                      }}
+                      onBlur={(e) => {
+                        e.target.style.borderColor = "#d1d5db";
+                        e.target.style.boxShadow = "none";
+                      }}
+                    >
+                      {(productDescriptions[contactData.product] || []).map(
+                        (desc) => (
+                          <option key={desc} value={desc}>
+                            {desc}
+                          </option>
+                        )
+                      )}
+                    </select>
+                  </div>
+
+                  <div>
+                    <label
+                      style={{
+                        display: "block",
+                        marginBottom: "6px",
+                        fontWeight: "500",
+                        color: "#374151",
+                        fontSize: "14px",
+                      }}
+                    >
+                      Unit Price ($)
+                    </label>
+                    <input
+                      type="number"
+                      step="0.01"
+                      value={item.unitPrice}
+                      onChange={(e) => {
+                        const newItems = [...contactData.items];
+                        newItems[index].unitPrice = parseFloat(
+                          e.target.value || 0
+                        );
+                        const qtyNum = parseFloat(newItems[index].qty) || 0;
+                        newItems[index].total =
+                          qtyNum * parseFloat(e.target.value || 0);
+                        setContactData({ ...contactData, items: newItems });
+                      }}
+                      style={{
+                        width: "100%",
+                        padding: "8px 12px",
+                        borderRadius: "6px",
+                        border: "1px solid #d1d5db",
+                        fontSize: "14px",
+                        backgroundColor: "#ffffff",
+                        transition: "all 0.2s ease",
+                      }}
+                      onFocus={(e) => {
+                        e.target.style.borderColor = "#4f46e5";
+                        e.target.style.boxShadow =
+                          "0 0 0 3px rgba(79, 70, 229, 0.1)";
+                      }}
+                      onBlur={(e) => {
+                        e.target.style.borderColor = "#d1d5db";
+                        e.target.style.boxShadow = "none";
+                      }}
+                    />
+                  </div>
+                </div>
+
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    fontSize: "14px",
+                    color: "#374151",
+                    padding: "8px 0",
+                    borderTop: "1px dashed #e5e7eb",
+                  }}
+                >
+                  <span>
+                    <strong>Unit Price:</strong> $
+                    {item.unitPrice?.toFixed(2) || "0.00"}
+                  </span>
+                  <span>
+                    <strong>Total:</strong> ${item.total?.toFixed(2) || "0.00"}
+                  </span>
+                </div>
+              </div>
+            ))}
+          </div>
 
           <div
             style={{
               display: "flex",
-              justifyContent: "space-between",
-              marginTop: "10px",
+              justifyContent: "flex-end",
+              gap: "12px",
+              marginTop: "16px",
             }}
           >
             <button
               onClick={togglePopup}
               style={{
-                flex: "1",
-                marginRight: "12px",
-                padding: "10px",
-                backgroundColor: "#e5e7eb",
-                color: "#111827",
+                padding: "10px 20px",
+                backgroundColor: "#f3f4f6",
+                color: "#374151",
                 border: "none",
                 borderRadius: "8px",
                 fontSize: "15px",
                 cursor: "pointer",
+                fontWeight: "500",
+                transition: "all 0.2s ease",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundColor = "#e5e7eb";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = "#f3f4f6";
               }}
             >
               Cancel
@@ -453,14 +855,23 @@ const priceMap = {
             <button
               onClick={togglePopup}
               style={{
-                flex: "1",
-                padding: "10px",
-                backgroundColor: "#2563eb",
+                padding: "10px 20px",
+                backgroundColor: "#4f46e5",
                 color: "white",
                 border: "none",
                 borderRadius: "8px",
                 fontSize: "15px",
                 cursor: "pointer",
+                fontWeight: "500",
+                transition: "all 0.2s ease",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundColor = "#4338ca";
+                e.currentTarget.style.transform = "translateY(-1px)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = "#4f46e5";
+                e.currentTarget.style.transform = "translateY(0)";
               }}
             >
               Save Changes

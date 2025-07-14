@@ -62,6 +62,9 @@ const todayNepal = new Date().toLocaleDateString("en-US", {
         }
 
         .export-button {
+        position:fixed;
+        top:20px;
+        left:20px;
           margin-bottom: 16px;
           padding: 8px 24px;
           background-color: #2563eb;
@@ -183,9 +186,13 @@ const todayNepal = new Date().toLocaleDateString("en-US", {
           gap: 20px;
         }
         .pdf-sign-block {
+        display:flex;
+        flex-direction:column;
+        justify-content:end;
+
           text-align: right;
           border-bottom: 1px solid black;
-          padding-bottom: 16px;
+          padding-bottom: 32px;
         }
         .pdf-footer {
           font-size: 9px;
@@ -344,9 +351,9 @@ const todayNepal = new Date().toLocaleDateString("en-US", {
                     lineHeight: "height",
                   }}
                 >
-                  {item.qty}
+                  {item.qty} License
                 </td>
-                <td>{item.duration}</td>
+                <td>{item.duration} year</td>
                 <td>{item.description}</td>
                 <td>${item.unitPrice.toFixed(2)}</td>
                 <td>${item.total.toFixed(2)}</td>
@@ -389,35 +396,81 @@ const todayNepal = new Date().toLocaleDateString("en-US", {
             <div style={{ marginTop: "8px" }}>
               {contact.product === "Zoom" && (
                 <>
-                  <p>Company Name: {contact.companyName}</p>
-                  <p>Email: {contact.email}</p>
-                  <p>DR: {contact.dr}</p>
+                  <p>
+                    <span className="bold">Company Name:</span>{" "}
+                    {contact.companyName}
+                  </p>
+                  <p>
+                    <span className="bold">Email:</span> {contact.email}
+                  </p>
+                  <p>
+                    <span className="bold">DR:</span> {contact.dr}
+                  </p>
                 </>
               )}
 
               {contact.product === "Zoho" && (
                 <>
-                  <p>Company Name: {contact.companyName}</p>
-                  <p>Primary Domain: {contact.primaryDomain}</p>
-                  <p>Address Line 1: {contact.addressLine1}</p>
-                  <p>City: {contact.city}</p>
-                  <p>State: {contact.state}</p>
-                  <p>Zip Code: {contact.zipCode}</p>
-                  <p>Profile: {contact.profile}</p>
+                  <p>
+                    <span className="bold">Company Name:</span>{" "}
+                    {contact.companyName}
+                  </p>
+                  <p>
+                    <span className="bold">Primary Domain:</span>{" "}
+                    {contact.primaryDomain}
+                  </p>
+                  <p>
+                    <span className="bold">Address Line 1:</span>{" "}
+                    {contact.addressLine1}
+                  </p>
+                  <p>
+                    <span className="bold">City:</span> {contact.city}
+                  </p>
+                  <p>
+                    <span className="bold">State:</span> {contact.state}
+                  </p>
+                  <p>
+                    <span className="bold">Zip Code:</span> {contact.zipCode}
+                  </p>
+                  <p>
+                    <span className="bold">Profile:</span> {contact.profile}
+                  </p>
                 </>
               )}
 
               {contact.product === "Microsoft" && (
                 <>
-                  <p>Company Name: {contact.companyName}</p>
-                  <p>Primary Domain: {contact.primaryDomain}</p>
-                  <p>Address Line 1: {contact.addressLine1}</p>
-                  <p>City: {contact.city}</p>
-                  <p>State: {contact.state}</p>
-                  <p>Zip Code: {contact.zipCode}</p>
-                  <p>Customer Contact: {contact.contactPerson}</p>
-                  <p>Email: {contact.email}</p>
-                  <p>Phone: {contact.phone}</p>
+                  <p>
+                    <span className="bold">Company Name:</span>{" "}
+                    {contact.companyName}
+                  </p>
+                  <p>
+                    <span className="bold">Primary Domain:</span>{" "}
+                    {contact.primaryDomain}
+                  </p>
+                  <p>
+                    <span className="bold">Address Line 1:</span>{" "}
+                    {contact.addressLine1}
+                  </p>
+                  <p>
+                    <span className="bold">City:</span> {contact.city}
+                  </p>
+                  <p>
+                    <span className="bold">State:</span> {contact.state}
+                  </p>
+                  <p>
+                    <span className="bold">Zip Code:</span> {contact.zipCode}
+                  </p>
+                  <p>
+                    <span className="bold">Customer Contact:</span>{" "}
+                    {contact.contactPerson}
+                  </p>
+                  <p>
+                    <span className="bold">Email:</span> {contact.email}
+                  </p>
+                  <p>
+                    <span className="bold">Phone:</span> {contact.phone}
+                  </p>
                 </>
               )}
             </div>
@@ -425,7 +478,7 @@ const todayNepal = new Date().toLocaleDateString("en-US", {
 
           <div className="pdf-sign-block">
             <p style={{ textAlign: "left" }}>Authorized by</p>
-            <div style={{ marginTop: "16px" }}>
+            <div style={{ marginTop: "24px" }}>
               <p>Subas Kandel</p>
               <p>
                 COO
@@ -436,7 +489,6 @@ const todayNepal = new Date().toLocaleDateString("en-US", {
           </div>
         </div>
 
-        {/* Footer */}
         <div className="pdf-footer">
           Nest Nepal Business Solutions Pvt. Ltd., Dhobighat Lalitpur, Bagmati,
           Nepal, Tel: 977-1-5917627/927,+977-9815111199
